@@ -7,18 +7,26 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
+    public static final String INFORMATION_TAG = "info";
     public static final String EXTRA_MESSAGE = "pure_software.partyapp.MESSAGE";
+    public static String DEBUG_TAG_LOGIN_VIEW = "login_view";
+    public static String ERROR_LOG = "error";
+    private static String sDefSystemLanguage;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -40,17 +48,31 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        sDefSystemLanguage = Locale.getDefault().getLanguage();
+        Log.i(INFORMATION_TAG, "Locale: " + sDefSystemLanguage);
     }
 
-    public void sendMessage(View view) {
-        Intent intent = new Intent(this, DisplayDummyMessage.class);
-        EditText editText = (EditText) findViewById(R.id.edit_text);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+    public void checkLogin(View view) {
+        CharSequence email;
+        EditText emailView = (EditText) findViewById(R.id.email);
+        TextView failure = (TextView) findViewById(R.id.failed_login);
+        try {
+            email = emailView.getText().toString();
+            Log.d(DEBUG_TAG_LOGIN_VIEW, "Email: " + email);
+            if ("@".contains(email)) {
+
+                Intent intent = new Intent(this, Overview.class);
+                startActivity(intent);
+            } else if ("de".contains(sDefSystemLanguage)) {
+                failure.setText("Dies ist keine korrekte Email!");
+            } else {
+                failure.setText("This is not a correct E-Mail!");
+            }
+        } catch (Exception e) {
+            Log.e(ERROR_LOG, e.getMessage());
+        }
     }
 
     @Override

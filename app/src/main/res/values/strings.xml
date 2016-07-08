@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Party-App</string>
-    <string name="action_settings">Settings</string>
-    <string name="dummy">Dummy</string>
-    <string name="dummy_hint">Dummy-Hint</string>
-    <string name="title_activity_display_dummy_message">DisplayDummyMessage</string>
+    <string name="general.action_settings">Settings</string>
+    <string name="main.login">Login</string>
+    <string name="login.username" translatable="false">Email</string>
+    <string name="login.password">Password</string>
+    <string name="login.login_btn">Login/Register</string>
+    <string name="title_activity_overview">Overview</string>
 </resources>
